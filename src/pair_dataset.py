@@ -38,12 +38,16 @@ class FacePairDataset(Dataset):
         return len(self.samples)
 
     def __getitem__(self, idx):
-        p1, p2, label = self.samples[idx]
+        while True:
+            p1, p2, label = self.samples[idx]
 
-        img1 = Image.open(p1).convert("RGB")
-        img2 = Image.open(p2).convert("RGB")
+            img1 = Image.open(p1).convert("RGB")
+            img2 = Image.open(p2).convert("RGB")
 
-        face1 = self.mtcnn(img1)
-        face2 = self.mtcnn(img2)
+            face1 = self.mtcnn(img1)
+            face2 = self.mtcnn(img2)
 
-        return face1, face2, torch.tensor(label, dtype=torch.float32)
+            if face1 is not None and face2 is not None:
+                return face1, face2, torch.tensor(label, dtype=torch.float32)
+
+            idx = (idx + 1) % len(self.samples)
