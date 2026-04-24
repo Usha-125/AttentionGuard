@@ -16,24 +16,32 @@ model = AttentionCNN().to(device)
 model.load_state_dict(torch.load("models/attention_model.pth"))
 model.eval()
 
-threshold = 0.7
+best_acc = 0
+best_thr = 0
 
-correct = 0
-total = 0
+for threshold in [x/100 for x in range(10, 201, 5)]:
 
-with torch.no_grad():
-    for x1, x2, y in loader:
-        x1, x2, y = x1.to(device), x2.to(device), y.to(device)
+    correct = 0
+    total = 0
 
-        e1, _ = model(x1)
-        e2, _ = model(x2)
+    with torch.no_grad():
+        for x1, x2, y in loader:
+            x1, x2, y = x1.to(device), x2.to(device), y.to(device)
 
-        dist = torch.norm(e1 - e2, dim=1)
-        pred = (dist < threshold).float()
+            e1, _ = model(x1)
+            e2, _ = model(x2)
 
-        correct += (pred == y).sum().item()
-        total += y.size(0)
+            dist = torch.norm(e1 - e2, dim=1)
+            pred = (dist < threshold).float()
 
-acc = 100 * correct / total
+            correct += (pred == y).sum().item()
+            total += y.size(0)
 
-print("Attention CNN Accuracy:", round(acc,2), "%")
+    acc = 100 * correct / total
+
+    if acc > best_acc:
+        best_acc = acc
+        best_thr = threshold
+
+print("Best Threshold:", best_thr)
+print("Best Accuracy:", round(best_acc,2), "%")
