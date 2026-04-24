@@ -8,132 +8,195 @@
 
 # Table of Contents
 
-1. Executive Overview
-2. Problem Statement
-3. Why This Project Matters
-4. Existing Systems & Limitations
-5. Proposed Solution – VeriShield AI
-6. Key Innovations
-7. System Architecture
-8. Core Methodology
-9. Mathematical Formulation
-10. Adversarial Attack Simulation
-11. Explainable AI Module
-12. Comparative Analysis
-13. Challenges Faced & Mitigations
-14. Tech Stack
-15. Project Structure
-16. Installation Guide
-17. How to Run
-18. Results
-19. Important Technical Insights
-20. Future Scope
-21. Author
+1. Executive Overview  
+2. Problem Statement  
+3. Why This Project Matters  
+4. Dataset Used and Why Chosen  
+5. Existing Systems and Limitations  
+6. Proposed Solution – VeriShield AI  
+7. Key Innovations  
+8. Complete System Architecture  
+9. Core Methodology  
+10. Mathematical Formulation  
+11. Adversarial Attack Simulation  
+12. Explainable AI Module  
+13. Comparative Analysis  
+14. Challenges Faced and Mitigations  
+15. Tech Stack  
+16. Project Structure  
+17. Installation Guide  
+18. How to Run  
+19. Results and Outcomes  
+20. Important Technical Insights  
+21. Future Scope  
+22. Author  
 
 ---
 
 # 1. Executive Overview
 
-VeriShield AI is an advanced **face authentication security system** designed to protect biometric login systems from adversarial attacks and manipulated image inputs.
+VeriShield AI is an advanced face authentication security system designed to protect biometric login systems from adversarial attacks, manipulated image inputs, and untrustworthy black-box decisions.
 
-Traditional face verification systems mostly compare similarity between two faces. If the similarity is high enough, the system accepts the user. However, this creates a serious security risk because attackers can slightly modify an image using hidden perturbations and fool the system.
+Traditional face verification systems mostly compare similarity between two faces. If the similarity score is high enough, the system accepts the user. However, this creates a major security risk because attackers can slightly modify an image using hidden perturbations and fool the system into making incorrect decisions.
 
-VeriShield AI improves this by combining:
+VeriShield AI improves this process by combining:
 
-* Face similarity verification
-* Attention consistency monitoring
-* Adversarial attack detection
-* Explainable heatmap reasoning
-* Multi-factor secure decision engine
+- Face similarity verification  
+- Attention consistency monitoring  
+- Adversarial attack detection  
+- Explainable heatmap reasoning  
+- Multi-factor secure decision engine  
+- Trust-based authentication logic  
 
-This project demonstrates that future biometric systems should not only be accurate, but also secure, explainable, and trustworthy.
+This project demonstrates that future biometric systems should not only be accurate, but also secure, explainable, reliable, and trustworthy.
 
 ---
 
 # 2. Problem Statement
 
-Many face authentication systems suffer from the following issues:
+Many face authentication systems suffer from the following serious limitations:
 
 ## Adversarial Vulnerability
 
-Small invisible pixel-level changes can trick AI models.
+Small pixel-level changes that are often invisible to humans can trick AI models into accepting fake identities or rejecting genuine users.
 
 ## Similarity-Only Decisions
 
-If two embeddings are close enough, the system accepts, even if manipulation exists.
+If two embeddings are close enough, the system accepts the identity, even if manipulation exists.
 
 ## Lack of Explainability
 
-Most systems output:
+Most systems output only:
 
 Match / No Match
 
 without explaining:
 
-* Why it matched
-* Which face regions were used
-* Whether suspicious focus shift happened
+- Why it matched  
+- Which face regions were used  
+- Whether suspicious attention shift occurred  
+- Whether the decision can be trusted  
 
 ## Security Risk
 
-Used in banking, devices, attendance, airports, and secure login systems.
+This is dangerous because face recognition is used in:
+
+- Banking login systems  
+- Smartphone unlock systems  
+- Attendance systems  
+- Airport e-gates  
+- Enterprise identity access  
+- Online KYC verification  
 
 ---
 
 # 3. Why This Project Matters
 
-Face recognition is used in:
+Biometric authentication is growing rapidly across industries.
 
-* Smartphones
-* Banking KYC
-* Airport gates
-* Enterprise login
-* Attendance systems
-* Identity verification portals
+However, if such systems are vulnerable, consequences may include:
 
-If compromised, consequences may include:
+- Identity theft  
+- Fraudulent access  
+- Unauthorized login  
+- Genuine user rejection  
+- Loss of trust in AI systems  
+- Financial and legal risk  
 
-* Fraudulent access
-* Identity theft
-* Unauthorized verification
-* Genuine user rejection
-* Loss of trust in AI systems
+Therefore, modern authentication systems must move beyond pure accuracy and include security intelligence.
 
 ---
 
-# 4. Existing Systems & Limitations
+# 4. Dataset Used and Why Chosen
 
-## Common Existing Models
+For this project, we used the **Labeled Faces in the Wild (LFW)** dataset, specifically the **deepfunneled aligned version**, because it is one of the most trusted benchmark datasets for face verification research.
 
-### FaceNet
+## About LFW Dataset
 
-Very high face recognition accuracy using embeddings.
+LFW contains real-world face images collected under unconstrained conditions such as:
 
-### Siamese Networks
+- Different lighting conditions  
+- Different camera quality  
+- Various face angles  
+- Facial expressions  
+- Background variations  
+- Accessories such as glasses, hats, etc.  
 
-Compare similarity between image pairs.
+This makes it highly suitable for practical biometric verification research.
 
-### Basic CNN Models
+## Why We Selected LFW
 
-Extract visual features for classification.
+Our project focuses on comparing **two face images for identity verification**. LFW is ideal because it supports pairwise comparison tasks:
+
+- Genuine Pairs = Same Person  
+- Impostor Pairs = Different Persons  
+
+## Why Better Than Controlled Datasets
+
+Many datasets contain studio-quality images with fixed lighting and clean backgrounds. Those datasets are easier but less realistic.
+
+LFW is more challenging and therefore better for testing:
+
+- Robustness under natural variations  
+- Adversarial attack resistance  
+- Trust-aware authentication systems  
+- Explainability behavior  
+
+## Why Better Than Larger Datasets for This Use Case
+
+Although datasets like CelebA or VGGFace2 are larger, LFW remains a gold-standard benchmark specifically for verification experiments.
+
+Therefore, LFW was an ideal and academically credible choice.
 
 ---
 
-## Main Limitations
+# 5. Existing Systems and Limitations
 
-| Limitation                 | Impact          |
-| -------------------------- | --------------- |
-| Similarity-only decisions  | Easy to fool    |
-| No attack awareness        | Vulnerable      |
-| No explainability          | Low trust       |
-| No focus consistency check | Unsafe          |
-| Black-box outputs          | Hard to justify |
+## FaceNet
+
+Very powerful face recognition model that converts faces into embeddings.
+
+### Limitation
+
+Excellent for recognition accuracy, but not designed for attack awareness or explainability.
 
 ---
 
-# 5. Proposed Solution – VeriShield AI
+## Siamese Networks
 
-VeriShield AI uses a smarter verification process.
+Learn similarity between two image pairs.
+
+### Limitation
+
+Still often similarity-focused, limited trust intelligence.
+
+---
+
+## Basic CNN Models
+
+Used for face classification and feature extraction.
+
+### Limitation
+
+Weaker robustness and poor interpretability.
+
+---
+
+## Summary Table
+
+| Limitation | Impact |
+|-----------|--------|
+| Similarity-only decisions | Easy to fool |
+| No attack awareness | Vulnerable |
+| No explainability | Low trust |
+| No attention consistency | Unsafe |
+| Black-box outputs | Hard to justify |
+
+---
+
+# 6. Proposed Solution – VeriShield AI
+
+VeriShield AI introduces a smarter identity verification framework.
 
 Instead of only asking:
 
@@ -141,93 +204,135 @@ Do these two faces look similar?
 
 It asks:
 
-* Are they similar?
-* Did attention remain stable?
-* Did suspicious drift occur?
-* Was focus manipulated?
-* Is this login trustworthy?
+- Are they similar?  
+- Did the model focus on stable facial landmarks?  
+- Did suspicious embedding drift occur?  
+- Did attention shift after perturbation?  
+- Is this authentication trustworthy?  
+
+This creates a more secure final decision.
 
 ---
 
-# 6. Key Innovations
+# 7. Key Innovations
 
-## Multi-Factor Decision System
+## 1. Multi-Factor Decision Engine
 
 Uses:
 
-* Similarity score
-* Embedding drift
-* Attention consistency
-* Suspicion score
+- Similarity score  
+- Embedding distance  
+- Drift score  
+- Attention consistency  
+- Suspicion score  
 
-## Explainable Authentication
+## 2. Explainable Authentication
 
-Heatmaps visually show model reasoning.
+Heatmaps visually explain model reasoning.
 
-## Security-Aware Verification
+## 3. Security-Aware Verification
 
 Rejects suspicious manipulated images even if similarity is high.
 
+## 4. Human Trust Layer
+
+Provides interpretable outputs instead of black-box decisions.
+
 ---
 
-# 7. System Architecture
+# 8. Complete System Architecture
 
-User Uploads Two Face Images
-↓
-Face Detection using MTCNN
-↓
-Preprocessing and Alignment
-↓
-Attention CNN Model
-↓
-Embedding Vector + Attention Map
-↓
+User Uploads Face A + Face B  
+↓  
+Input Validation Layer  
+↓  
+Face Detection using MTCNN  
+↓  
+Image Alignment and Preprocessing  
+↓  
+Attention CNN Model  
+↓  
+Embedding Vector + Attention Map  
+↓  
 Compute:
 
-* Similarity Distance
-* Drift Score
-* Consistency Score
-* Suspicion Score
+- Similarity Distance  
+- Drift Score  
+- Consistency Score  
+- Suspicion Score  
 
-↓
-Final Decision Engine
-↓
-Explainability Dashboard
+↓  
+Decision Intelligence Engine  
+↓  
+Explainability Dashboard  
+↓  
+Downloadable Security Report
 
 ---
 
-# 8. Core Methodology
+# 9. Core Methodology
 
 ## Step 1 – Face Detection
 
-Used MTCNN to detect and align faces.
+Used **MTCNN** for:
+
+- Face localization  
+- Landmark detection  
+- Alignment  
+- Cropping  
+
+This improves consistency before recognition.
+
+---
 
 ## Step 2 – Feature Extraction
 
 Attention CNN outputs:
 
-* 128-dimensional embedding
-* Spatial attention map
+- 128-dimensional identity embedding  
+- Spatial attention map  
 
-## Step 3 – Similarity Matching
+Embedding captures identity information.
 
-Compare embeddings of both images.
-
-## Step 4 – Attack Evaluation
-
-Modified image tested again.
-
-## Step 5 – Attention Consistency Check
-
-Compare clean vs attacked attention.
-
-## Step 6 – Final Decision
-
-Secure authentication result.
+Attention map captures reasoning focus.
 
 ---
 
-# 9. Mathematical Formulation
+## Step 3 – Similarity Matching
+
+Compare embeddings of two images.
+
+Low distance = likely same identity.
+
+---
+
+## Step 4 – Attack Evaluation
+
+Modified version of image tested again.
+
+Used attacks:
+
+- FGSM  
+- Blur  
+- Brightness shift  
+
+---
+
+## Step 5 – Attention Consistency Check
+
+Compare clean vs attacked attention maps.
+
+Stable focus = trustworthy behavior.
+
+---
+
+## Step 6 – Final Decision
+
+Decision based on multiple signals, not only similarity.
+
+---
+
+# 10. Mathematical Formulation
 
 ## Embedding Distance
 
@@ -235,10 +340,10 @@ d = ||e1 - e2||₂
 
 Where:
 
-* e1 = embedding of image 1
-* e2 = embedding of image 2
+- e1 = embedding of image A  
+- e2 = embedding of image B  
 
-Low distance means higher similarity.
+Low distance means strong similarity.
 
 ---
 
@@ -248,8 +353,8 @@ Confidence = (1 - d / T) × 100
 
 Where:
 
-* d = distance
-* T = threshold
+- d = distance  
+- T = threshold  
 
 ---
 
@@ -257,7 +362,7 @@ Where:
 
 Drift = |d_attacked - d_clean|
 
-Measures model instability.
+Measures instability after attack.
 
 ---
 
@@ -267,10 +372,10 @@ L = MSE(A_clean, A_adv)
 
 Where:
 
-* A_clean = clean attention map
-* A_adv = attacked attention map
+- A_clean = clean attention map  
+- A_adv = attacked attention map  
 
-Low loss means stable model focus.
+Low loss means stable reasoning.
 
 ---
 
@@ -278,92 +383,95 @@ Low loss means stable model focus.
 
 Suspicion = k × Drift
 
-Higher drift = more suspicious input.
+Higher drift means higher suspicion.
 
 ---
 
-# 10. Adversarial Attack Simulation
+# 11. Adversarial Attack Simulation
 
 ## FGSM Attack
 
-FGSM means **Fast Gradient Sign Method**.
+FGSM stands for **Fast Gradient Sign Method**.
 
-It creates an adversarial image using:
+Formula:
 
 x_adv = x + ε sign(∇x J)
 
 Where:
 
-* x = original image
-* ε = attack strength
-* gradient guides how to fool model
+- x = original image  
+- ε = perturbation strength  
+- gradient indicates how to fool model  
 
-FGSM is widely used because it is fast, effective, and standard in adversarial AI research.
+## Why FGSM Used
 
----
+- Fast  
+- Effective  
+- Standard research benchmark  
+- Demonstrates vulnerability clearly  
 
 ## Additional Practical Attacks
 
-* Blur attack
-* Brightness manipulation
-* Noise perturbation
+- Blur attack  
+- Brightness manipulation  
+- Noise perturbation  
 
-These simulate real-world image tampering.
+These simulate real-world tampering.
 
 ---
 
-# 11. Explainable AI Module
+# 12. Explainable AI Module
 
-Heatmaps show where the model focused while verifying identity.
+Heatmaps show which facial regions influenced the decision.
 
 Examples:
 
-* Eyes
-* Nose bridge
-* Mouth
-* Cheeks
-* Facial contour
+- Eyes  
+- Nose bridge  
+- Mouth  
+- Cheeks  
+- Facial contour  
 
-## Why Heatmaps Are Important
+## Why Important
 
-Without heatmaps:
+Without explainability:
 
-Black-box system
+Black-box system.
 
-With heatmaps:
+With explainability:
 
-Transparent AI decision system
+Transparent and trustworthy AI system.
 
-They help detect whether attention shifted unnaturally under attack.
-
----
-
-# 12. Comparative Analysis
-
-| Model         | Accuracy    | Explainable | Attack Aware | Security |
-| ------------- | ----------- | ----------- | ------------ | -------- |
-| FaceNet       | Very High   | No          | No           | Medium   |
-| Basic CNN     | Medium      | No          | No           | Low      |
-| Attention CNN | Good        | Partial     | Partial      | Medium   |
-| VeriShield AI | High + Safe | Yes         | Yes          | High     |
+Helps validate whether model focus remained logical.
 
 ---
 
-# 13. Challenges Faced & Mitigations
+# 13. Comparative Analysis
+
+| Model | Accuracy | Explainable | Attack Aware | Security |
+|------|----------|------------|-------------|----------|
+| FaceNet | Very High | No | No | Medium |
+| Basic CNN | Medium | No | No | Low |
+| Attention CNN | Good | Partial | Partial | Medium |
+| VeriShield AI | High + Safe | Yes | Yes | High |
+
+---
+
+# 14. Challenges Faced and Mitigations
 
 ## Low Accuracy Initially
 
 ### Cause
 
-* Only few epochs
-* Limited tuning
-* Small dataset
+- Few epochs  
+- Limited tuning  
+- Poor threshold calibration  
 
 ### Fix
 
-* More training epochs
-* Better thresholds
-* Improved evaluation
+- Increased epochs  
+- Better threshold optimization  
+- Improved evaluation pipeline  
 
 ---
 
@@ -371,25 +479,25 @@ They help detect whether attention shifted unnaturally under attack.
 
 ### Cause
 
-CPU inference.
+CPU-only execution.
 
 ### Fix
 
-CUDA GPU acceleration using NVIDIA RTX 3050.
+CUDA acceleration using NVIDIA RTX 3050 GPU.
 
 ---
 
-## Weak Heatmaps
+## Weak Heatmaps Initially
 
 ### Cause
 
-Low resolution attention outputs.
+Low resolution attention maps.
 
 ### Fix
 
-* Better interpolation
-* Smoothing
-* Overlay redesign
+- Better interpolation  
+- Smoothing  
+- Improved overlays  
 
 ---
 
@@ -401,81 +509,80 @@ Windows DataLoader issues.
 
 ### Fix
 
-Used:
-
-if **name** == "**main**"
+Used safe multiprocessing structure.
 
 ---
 
-# 14. Tech Stack
+# 15. Tech Stack
 
-## Languages
+## Programming Language
 
-* Python
+- Python
 
 ## Deep Learning
 
-* PyTorch
+- PyTorch
 
 ## Computer Vision
 
-* OpenCV
-* PIL
+- OpenCV  
+- PIL
 
 ## Face Detection
 
-* facenet-pytorch MTCNN
+- facenet-pytorch (MTCNN)
 
-## UI
+## Dashboard
 
-* Streamlit
+- Streamlit
 
 ## Visualization
 
-* Matplotlib
+- Matplotlib  
+- Pandas
 
 ## Hardware
 
-* Dell G15 Laptop
-* NVIDIA RTX 3050 GPU
+- Dell G15 Laptop  
+- NVIDIA RTX 3050 GPU
 
 ## Version Control
 
-* Git
-* GitHub
+- Git  
+- GitHub
 
 ---
 
-# 15. Project Structure
+# 16. Project Structure
 
 VeriShieldAI/
 
-app/
+app/  
  app.py
 
-models/
+models/  
  best_attention_model.pth
 
-src/
- attention_model.py
- train.py
- evaluate.py
+src/  
+ attention_model.py  
+ train.py  
+ evaluate.py  
  utils.py
 
-outputs/
- plots/
- heatmaps/
+outputs/  
+ heatmaps/  
+ plots/  
  reports/
 
 README.md
 
 ---
 
-# 16. Installation Guide
+# 17. Installation Guide
 
-git clone [https://github.com/yourusername/VeriShieldAI.git](https://github.com/yourusername/VeriShieldAI.git)
+git clone https://github.com/Usha-125/AttentionGuard.git
 
-cd VeriShieldAI
+cd AttentionGuard
 
 python -m venv venv
 
@@ -485,9 +592,9 @@ pip install -r requirements.txt
 
 ---
 
-# 17. How to Run
+# 18. How to Run
 
-## Run Dashboard
+## Launch Dashboard
 
 python -m streamlit run app/app.py
 
@@ -501,24 +608,24 @@ python src/evaluate.py
 
 ---
 
-# 18. Results
+# 19. Results and Outcomes
 
 ## Achievements
 
-* Real-time secure dashboard
-* GPU-enabled inference
-* Explainable heatmaps
-* Attack simulation
-* Legacy vs secure comparison
-* Downloadable reports
+- Real-time secure dashboard  
+- GPU-enabled inference  
+- Explainable heatmaps  
+- Attack simulation environment  
+- Legacy vs proposed comparison  
+- Downloadable security reports  
 
 ## Key Insight
 
-Even when similarity looks acceptable, suspicious drift may reveal manipulation.
+Even when similarity appears acceptable, suspicious drift may reveal manipulation.
 
 ---
 
-# 19. Important Technical Insights
+# 20. Important Technical Insights
 
 ## What Is Novelty In This Project?
 
@@ -526,41 +633,28 @@ The novelty is not only face recognition.
 
 It combines:
 
-* Authentication
-* Adversarial robustness
-* Attention consistency
-* Explainability
-* Trust-based decision making
+- Authentication  
+- Adversarial robustness  
+- Attention consistency  
+- Explainability  
+- Trust-based decisions  
 
-Most models stop at accuracy. VeriShield AI goes beyond accuracy into secure AI.
+Most systems stop at accuracy. VeriShield AI goes beyond accuracy into secure AI.
 
 ---
 
-## Why FaceNet Can Sometimes Show Higher Accuracy
+## Why FaceNet Sometimes Shows Higher Accuracy
 
-FaceNet is highly optimized only for recognition accuracy on clean datasets.
+FaceNet is optimized mainly for recognition accuracy.
 
 VeriShield AI is optimized for:
 
-* Robustness
-* Attack detection
-* Safer decisions
-* Explainability
+- Security  
+- Robustness  
+- Safer decisions  
+- Explainability  
 
-So sometimes a pure recognition model may score higher on clean accuracy, but a safer system is better in real-world security.
-
----
-
-## Why FGSM Is Used
-
-FGSM is a standard adversarial benchmark.
-
-Used because:
-
-* Fast to generate
-* Effective
-* Research accepted
-* Shows vulnerability clearly
+Hence sometimes a pure recognition model may score higher on clean datasets.
 
 ---
 
@@ -568,51 +662,49 @@ Used because:
 
 Heatmaps show which facial regions influenced the decision.
 
-This helps:
+This improves:
 
-* Transparency
-* Debugging
-* Trust
-* Security validation
+- Transparency  
+- Debugging  
+- Trust  
+- Security validation  
 
 ---
 
 ## Why Attention Consistency Matters
 
-A genuine face should keep similar focus patterns.
+A genuine face should retain similar focus patterns.
 
-If focus suddenly shifts after minor perturbation:
-
-Possible attack detected.
+Sudden shift after perturbation may indicate attack.
 
 ---
 
-# 20. Future Scope
+# 21. Future Scope
 
-* Transformer-based biometric models
-* Webcam real-time verification
-* Liveness detection
-* Deepfake detection
-* Mobile app deployment
-* Cloud API service
-* Multi-modal authentication
+- Real-time webcam authentication  
+- Deepfake detection  
+- Liveness detection  
+- Mobile deployment  
+- Transformer backbone  
+- Multi-modal authentication  
+- Cloud API deployment  
 
 ---
 
-# 21. Author
+# 22. Author
 
 ## Usha S Gowda
 
-Engineering Student
-AI Research Enthusiast
-Security Systems Builder
+Engineering Student  
+AI Research Enthusiast  
+Security Systems Builder  
 Interested in AI Security and Cybersecurity
 
 ---
 
 # Final Statement
 
-VeriShield AI proves that future authentication systems should not be only accurate.
+VeriShield AI proves that future authentication systems should not only be accurate.
 
 They must be:
 
