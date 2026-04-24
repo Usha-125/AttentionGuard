@@ -3,6 +3,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from pair_dataset import FacePairDataset
 from attention_model import AttentionCNN
+import matplotlib.pyplot as plt
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -27,6 +28,7 @@ def contrastive_loss(e1, e2, label):
     return (loss_same + loss_diff).mean()
 
 epochs = 5
+loss_history = []
 
 for epoch in range(epochs):
     total_loss = 0
@@ -47,7 +49,17 @@ for epoch in range(epochs):
 
         total_loss += loss.item()
 
+    loss_history.append(total_loss)
     print(f"Epoch {epoch+1}/{epochs} Loss: {total_loss:.4f}")
 
 torch.save(model.state_dict(), "models/attention_model.pth")
 print("Model saved.")
+
+plt.figure(figsize=(7,5))
+plt.plot(range(1, epochs+1), loss_history, marker="o")
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.title("Training Loss Curve")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
