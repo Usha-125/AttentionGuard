@@ -47,3 +47,20 @@ plt.imshow(img)
 plt.title("Adversarial Face")
 plt.axis("off")
 plt.show()
+import matplotlib.pyplot as plt
+
+labels = ["Clean", "Adversarial"]
+values = [clean_dist, adv_dist]
+
+plt.figure(figsize=(7,5))
+bars = plt.bar(labels, values)
+
+for bar in bars:
+    y = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, y + 0.02, round(y,3),
+             ha='center')
+
+plt.ylabel("Embedding Distance")
+plt.title("Effect of FGSM Attack on Genuine Pair")
+plt.tight_layout()
+plt.show()
